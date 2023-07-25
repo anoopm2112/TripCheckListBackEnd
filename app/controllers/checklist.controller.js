@@ -32,7 +32,7 @@ exports.create = (req, res) => {
 
 // Retrieve and return all checklists from the database.
 exports.findAll = (req, res) => {
-    TripChecklist.find({ isCompleted: false, userId: req.body.userId }).then(checklist => {
+    TripChecklist.find({ isCompleted: false, userId: req.params.userId }).then(checklist => {
         let response = {
             message: 'TripChecklist fetched successfully',
             checklist: checklist
