@@ -6,7 +6,8 @@ const TripChecklistSchema = mongoose.Schema({
     title: String,
     isCompleted: Boolean,
     ReminderTime: Date,
-    checkListItems: Array   
+    checkListItems: Array,
+    userId: String  
 }, {
     timestamps: true
 });

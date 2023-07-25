@@ -16,7 +16,8 @@ exports.create = (req, res) => {
         isCompleted: false,
         title: req.body.title,
         ReminderTime: req.body.ReminderTime,
-        checkListItems: req.body.checkListItems
+        checkListItems: req.body.checkListItems,
+        userId: req.body.userId
     });
 
     // Save Checklist in the database
@@ -31,7 +32,7 @@ exports.create = (req, res) => {
 
 // Retrieve and return all checklists from the database.
 exports.findAll = (req, res) => {
-    TripChecklist.find({ isCompleted: false }).then(checklist => {
+    TripChecklist.find({ isCompleted: false, userId: req.body.userId }).then(checklist => {
         let response = {
             message: 'TripChecklist fetched successfully',
             checklist: checklist
