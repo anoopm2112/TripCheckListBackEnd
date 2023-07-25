@@ -12,6 +12,7 @@ app.use(cors()) // Use this after the variable declaration
 
 require('./app/routes/checklist.routes.js')(app);
 require('./app/routes/note.routes.js')(app);
+require('./app/routes/user.routes.js')(app);
 
 // listen for requests
 app.listen(process.env.DB_PORT, () => {
