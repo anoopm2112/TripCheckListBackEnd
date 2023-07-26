@@ -11,7 +11,6 @@ exports.create = (req, res) => {
 
     // Create a Note
     const note = new Note({
-        title: req.body.title || "Untitled Note",
         content: req.body.content,
         userId: req.body.userId
     });
@@ -44,28 +43,6 @@ exports.findAll = (req, res) => {
         });
 };
 
-// Find a single note with a noteId
-exports.findOne = (req, res) => {
-    Note.findById(req.params.noteId)
-        .then(note => {
-            if (!note) {
-                return res.status(404).send({
-                    message: "Note not found with id " + req.params.noteId
-                });
-            }
-            res.send(note);
-        }).catch(err => {
-            if (err.kind === 'ObjectId') {
-                return res.status(404).send({
-                    message: "Note not found with id " + req.params.noteId
-                });
-            }
-            return res.status(500).send({
-                message: "Error retrieving note with id " + req.params.noteId
-            });
-        });
-};
-
 // Update a note identified by the noteId in the request
 exports.update = (req, res) => {
     // Validate Request
@@ -77,9 +54,7 @@ exports.update = (req, res) => {
 
     // Find note and update it with the request body
     Note.findByIdAndUpdate(req.params.noteId, {
-        title: req.body.title || "Untitled Note",
         content: req.body.content,
-        userId: req.body.userId
     }, { new: true })
         .then(note => {
             if (!note) {
@@ -120,26 +95,4 @@ exports.delete = (req, res) => {
                 message: "Could not delete note with id " + req.params.noteId
             });
         });
-};
-
-// Retrieve and return all notes from the database by PAGINATION.
-exports.findAllPaginated = async (req, res) => {
-    const pageNumber = parseInt(req.query.page);
-    const limit = parseInt(req.query.limit);
-
-    const result = {};
-    const totalPosts = await Note.countDocuments().exec();
-    let startIndex = pageNumber * limit;
-    const endIndex = (pageNumber + 1) * limit;
-    result.totalPosts = totalPosts;
-
-    if (startIndex > 0) {
-        result.previous = { pageNumber: pageNumber - 1, limit: limit }
-    }
-    if (endIndex < (await Note.countDocuments().exec())) {
-        result.next = { pageNumber: pageNumber + 1, limit: limit }
-    }
-    result.data = await Note.find().sort("_id").skip(startIndex).limit(limit).exec();
-    result.rowsPerPage = limit;
-    res.send(result);
 };
