@@ -14,6 +14,7 @@ require('./app/routes/checklist.routes.js')(app);
 require('./app/routes/note.routes.js')(app);
 require('./app/routes/user.routes.js')(app);
 require('./app/routes/placelist.routes.js')(app);
+require('./app/routes/splitwise.routes.js')(app);
 
 // listen for requests
 app.listen(process.env.DB_PORT, () => {

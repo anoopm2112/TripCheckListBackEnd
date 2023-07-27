@@ -2,7 +2,8 @@ const mongoose = require('mongoose');
 
 const NoteSchema = mongoose.Schema({
     content: String,
-    userId: String
+    userId: String,
+    splitId: String
 }, {
     timestamps: true
 });
